@@ -49,23 +49,27 @@ function confirmaExclusao(indice,conta){
 	<input type="submit" value="Save">
 </form>
 
+<table border="1">
+	<tr>
+		<th>Conta de e-mail</th>
+		<th>Alteração</th>
+	</tr>
 <%
 List<Cliente> lista = (List<Cliente>)request.getAttribute("lista");
 int i=0;
 for (Cliente c : lista){
 %>
-	<!-- out.print(c.getEmail()+" <a href='javascript:editar(" + lista.indexOf(c) +")'>Editar</a> <a href='javascript:confirmaExclusao(" + lista.indexOf(c) +")'>Excluir</a><br/>"); -->
-	<%=c.getEmail()%>
-	
-	<a href="cliente?editar=<%=i%>"> Editar </a> | 
-	
-	<a href="javascript:confirmaExclusao(<%=i%>,'<%=c.getEmail()%>')"> Excluir </a>
-		
-	</br>
+	<tr>
+		<td><%=c.getEmail()%></td>
+		<td>
+			<a href="cliente?editar=<%=i%>"> Editar </a> | 
+	     	<a href="javascript:confirmaExclusao(<%=i%>,'<%=c.getEmail()%>')"> Excluir </a>
+	    </td> 	
+	</tr>
 <%	
 	i++;
 }
 %>
-
+</table>
 </body>
 </html>

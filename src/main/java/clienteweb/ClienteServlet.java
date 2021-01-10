@@ -64,7 +64,7 @@ public class ClienteServlet extends HttpServlet {
 		//Criar um atributo dentro do request
 		//req.setAttribute("lista", lista);
 		req.setAttribute("cli", cli);
-		req.setAttribute("iCli", editar);
+		req.setAttribute("iCli", editar==null?"-1":editar);
 		req.setAttribute("lista", clienteService.getTodosClientes());
 
 		//Encaminhar 
@@ -78,18 +78,20 @@ public class ClienteServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		Cliente cli = new Cliente();
 		Integer indice = -1;
-		if (req.getParameter("editar") != null) {
-			Integer.parseInt( req.getParameter("editar") );
+		String iCli = req.getParameter("iCli");
+		System.out.println( iCli );
+		if ( iCli != null && iCli != "" ) {
+			indice = Integer.parseInt( iCli );
 		}
 		
 		if (!email.equals("")) {
 			//Colocando o email em um objeto cliente
 			cli = new Cliente();
 			cli.setEmail(email);
-			
+
 			//Adicionando o objeto cliente na Lista de Cliente
 			//lista.add(cli);
-			clienteService.salvar(indice,cli);
+			clienteService.salvar(indice, cli);
 		    req.setAttribute("msg"  , "Cadastrado com sucesso!");
 		    
 		    cli = new Cliente();
@@ -117,7 +119,7 @@ public class ClienteServlet extends HttpServlet {
 		//resp.sendRedirect("cliente");
 		
 	}
-	
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.getWriter().print("Chamou pelo método DELETE!");
