@@ -1,6 +1,5 @@
+<%@ taglib prefix="c" uri="https://mvnrepository.com/artifact/jstl/jstl"%>
 <!DOCTYPE html>
-<%@page import="br.gov.fatec.model.Cliente"%>
-<%@page import="java.util.List"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -19,32 +18,18 @@ function confirmaExclusao(indice,conta){
 <div>
 
 	<p style="color:green">
-	<%
-	Object msg = request.getAttribute("msg");
-	if (msg!=null){
-		out.print((String)msg);
-	}
-	%>
+	${requestScope.msg}
 	</p>
 	<p style="color:red">
-	<%
-	Object msgx = request.getAttribute("excluido");
-	if (msgx!=null){
-		out.print( (String)msgx );
-	}
-	
-	Cliente cli = (Cliente) request.getAttribute("cli");
-	Object indice = (Object) request.getAttribute("iCli");
-	
-	%>
+	${requestScope.msgx}
 	</p>
 
 </div>
 
 <form method="post" action="cliente">
-	<input type="hidden" name="iCli" value="<%=indice%>">
+	<input type="hidden" name="iCli" value="${requestScope.iCli} }">
 	E-mail: 
-	<input type="text" value="<%=cli.getEmail()%>" name="email" />
+	<input type="text" value="${requestScope.cli.email }" name="email" />
 
 	<input type="submit" value="Save">
 </form>
@@ -54,22 +39,22 @@ function confirmaExclusao(indice,conta){
 		<th>Conta de e-mail</th>
 		<th>Alteração</th>
 	</tr>
-<%
-List<Cliente> lista = (List<Cliente>)request.getAttribute("lista");
-int i=0;
-for (Cliente c : lista){
-%>
+
+<c:set var="nIndice" value="0"/>
+<c:forEach items="${requestScope.lista}" var="c">
+	
 	<tr>
-		<td><%=c.getEmail()%></td>
 		<td>
-			<a href="cliente?editar=<%=i%>"> Editar </a> | 
-	     	<a href="javascript:confirmaExclusao(<%=i%>,'<%=c.getEmail()%>')"> Excluir </a>
+			${c.email}
+		</td>
+		<td>
+			<a href="cliente?editar=${nIndice}"> Editar </a> | 
+	     	<a href="javascript:confirmaExclusao(${nIndice},${c.email})"> Excluir </a>
 	    </td> 	
 	</tr>
-<%	
-	i++;
-}
-%>
+	<c:set var="nIndice" value="${nIndice+1}"/>
+</c:forEach>	
+
 </table>
 </body>
 </html>
